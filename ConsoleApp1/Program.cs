@@ -14,6 +14,8 @@ namespace Algorithms
 {
     class Program
     {
+
+        // Need to change searching to work with bin sort
         public static int[] S1_256, S1_2048, S2_256, S2_2048, S3_256, S3_2048;
         public static string[] sS1_256, sS1_2048, sS2_256, sS2_2048, sS3_256, sS3_2048;
 
@@ -43,14 +45,17 @@ namespace Algorithms
             S3_2048 = ConvertToInteger(sS3_2048);
             return true;
         }
-        public static void DisplayEvery10th(int[] Array)
+
+
+        public static void DisplayEveryInterval(int[] Array, int Interval)
         {
-            for (int i = 0;i < Array.Length - 1; i=+10) {
+            for (int i = 0;i < Array.Length - 1; i= i + Interval) {
                 Console.WriteLine(Array[i]);
             }
         }
+        
 
-        public static int[] BubbleSort(int[] arraytosort)
+        public static int[] BubbleSort(int[] arraytosort, string Direction)
         {
             int temp;
             bool swapped;
@@ -124,30 +129,131 @@ namespace Algorithms
             return PositionsOfFounds;
         }
 
-        public static void Main(string[] args)
+        public static void DisplayMenu()
         {
-            Console.WriteLine("Every 10th Value of array no 1, 2, or 3?");        
+            Console.WriteLine("Sort Going Up (a) or down (d)");
+            string SortDirection = Console.ReadLine();
+            Console.WriteLine("Show 256 or 2048 array?");
+            int ArrayType = Int16.Parse(Console.ReadLine());    
+            Console.WriteLine("Array no 1, 2, or 3?");
             int menuChoice = Int16.Parse(Console.ReadLine());
 
-            switch (menuChoice)
+            switch (ArrayType)
             {
-                case 1:
-                    DisplayEvery10th(S1_256); 
+                case 256:
+                    switch (menuChoice)
+                    {
+                        case 1:
+                            DisplayEveryInterval(BubbleSort(S1_256, SortDirection), 10);
+                            break;
+                        case 2:
+                            DisplayEveryInterval(BubbleSort(S2_256, SortDirection), 10);
+                            break;
+                        case 3:
+                            DisplayEveryInterval(BubbleSort(S3_256, SortDirection), 10);
+                            break;
+                        default:
+                            break;
+                    }
                     break;
-                case 2:
-                    DisplayEvery10th(S2_256);
+                case 2048:
+                    switch (menuChoice)
+                    {
+                        case 1:
+                            DisplayEveryInterval(BubbleSort(S1_2048, SortDirection), 50);
+                            break;
+                        case 2:
+                            DisplayEveryInterval(BubbleSort(S2_2048, SortDirection), 50);
+                            break;
+                        case 3:
+                            DisplayEveryInterval(BubbleSort(S3_2048, SortDirection), 50);
+                            break;
+                        default:
+                            break;
+                    }
                     break;
-                case 3:
-                    DisplayEvery10th(S3_256);
+                default:
+                    break;
+            }          
+        }
+        public static void SearchMenu()
+        {
+            Console.WriteLine("Enter Search Term (Integer)");
+            int SearchTerm = Int16.Parse(Console.ReadLine());
+            Console.WriteLine("Using linear search or binary search? b/l");
+            string SearchType = Console.ReadLine();
+            Console.WriteLine("Search 256 or 2048 array?");
+            int ArrayType = Int16.Parse(Console.ReadLine());
+            Console.WriteLine("Array no 1, 2, or 3?");
+            int menuChoice = Int16.Parse(Console.ReadLine());
+
+            List<int> Values;
+            int[] SelectedArray = null;
+
+            switch (ArrayType)
+            {
+                case 256:
+                    switch (menuChoice)
+                    {
+                        case 1:
+                            SelectedArray = S1_256;
+                            break;
+                        case 2:
+                            SelectedArray = S2_256;
+                            break;
+                        case 3:
+                            SelectedArray = S3_256;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 2048:
+                    switch (menuChoice)
+                    {
+                        case 1:
+                            SelectedArray = S1_2048;
+                            break;
+                        case 2:
+                            SelectedArray = S2_2048;
+                            break;
+                        case 3:
+                            SelectedArray = S3_2048;
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 default:
                     break;
             }
+            if (SearchType == "b")
+            {
+                Values = BinarySearch(SelectedArray, SearchTerm);
+            } else
+            {
+                Values = LinearSearch(SelectedArray, SearchTerm);
+            }
+            if (Values.Count == 0)
+            {
+                Console.WriteLine("Not Present In Array");                
+            }
+            else
+            {
+                for (int i = 0; i < Values.Count - 1; i++)
+                {
+                    Console.WriteLine(Values[i]);
+                }
+            }
+        }
 
-            Console.WriteLine("");
+        public static void Main(string[] args)
+        {
             LoadFiles();
-            
-            Console.WriteLine(S2_256[6]);
+
+            SearchMenu();
+
+            Console.ReadLine();
         }       
     }
 }
