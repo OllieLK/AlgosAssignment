@@ -54,7 +54,6 @@ namespace Algorithms
             }
         }
         
-
         public static int[] BubbleSort(int[] arraytosort, string Direction)
         {
             int temp;
@@ -65,15 +64,28 @@ namespace Algorithms
                 swapped = false;
                 for (int j = 0; j < arraytosort.Length - i - 1; j++)
                 {
-                    if (arraytosort[j] > arraytosort[j + 1])
+                    if (Direction == "a")
                     {
-                        temp = arraytosort[j];
-                        arraytosort[j] = arraytosort[j + 1];
-                        arraytosort[j + 1] = temp;
-                        swapped = true;
+                        if (arraytosort[j] > arraytosort[j + 1])
+                        {
+                            temp = arraytosort[j];
+                            arraytosort[j] = arraytosort[j + 1];
+                            arraytosort[j + 1] = temp;
+                            swapped = true;
+                        }
+                    }
+                    else if (Direction == "d")
+                    {
+                        if (arraytosort[j] < arraytosort[j + 1])
+                        {
+                            temp = arraytosort[j];
+                            arraytosort[j] = arraytosort[j + 1];
+                            arraytosort[j + 1] = temp;
+                            swapped = true;
+                        }
                     }
                 }
-                if (swapped = false)
+                if (swapped == false)
                 {
                     return arraytosort;
                 }
@@ -92,6 +104,7 @@ namespace Algorithms
             return PositionsOfFounds;
         }
         public static List<int> BinarySearch(int[] arraytosearch, int SearchItem) {
+            arraytosearch = BubbleSort(arraytosearch, "a");
             List<int> PositionsOfFounds = new List<int>();
             int left = 0;
             int right = arraytosearch.Length - 1;
@@ -250,10 +263,21 @@ namespace Algorithms
         public static void Main(string[] args)
         {
             LoadFiles();
-
-            SearchMenu();
-
-            Console.ReadLine();
+            do
+            {
+                Console.WriteLine("Select Function:\n[1] Display sorted arrays\n[2] Search Arrays\n[3] Quit");
+                int menuChoice = Int16.Parse(Console.ReadLine());
+                if (menuChoice == 1)
+                {
+                    DisplayMenu();
+                } else if (menuChoice == 2)
+                {
+                    SearchMenu();
+                } else if (menuChoice == 3)
+                {
+                    break;
+                }
+            } while (true);            
         }       
     }
 }
