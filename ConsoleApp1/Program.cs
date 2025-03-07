@@ -16,6 +16,7 @@ namespace Algorithms
     {
         public static int[] S1_256, S1_2048, S2_256, S2_2048, S3_256, S3_2048;
         public static string[] sS1_256, sS1_2048, sS2_256, sS2_2048, sS3_256, sS3_2048;
+
         public static int[] ConvertToInteger(string[] s)
         {
             int[] a = new int[s.Length];
@@ -42,6 +43,13 @@ namespace Algorithms
             S3_2048 = ConvertToInteger(sS3_2048);
             return true;
         }
+        public static void DisplayEvery10th(int[] Array)
+        {
+            for (int i = 0;i < Array.Length - 1; i=+10) {
+                Console.WriteLine(Array[i]);
+            }
+        }
+
         public static int[] BubbleSort(int[] arraytosort)
         {
             int temp;
@@ -67,7 +75,7 @@ namespace Algorithms
             }
             return arraytosort;
         }
-        public static List<int> LinearSearch(int[] arraytosearch int SearchItem)
+        public static List<int> LinearSearch(int[] arraytosearch, int SearchItem)
         {
             List<int> PositionsOfFounds = new List<int>();
             for (int i = 0; i < arraytosearch.Length - 1; i++) { 
@@ -78,8 +86,64 @@ namespace Algorithms
             }
             return PositionsOfFounds;
         }
+        public static List<int> BinarySearch(int[] arraytosearch, int SearchItem) {
+            List<int> PositionsOfFounds = new List<int>();
+            int left = 0;
+            int right = arraytosearch.Length - 1;
+            while (left <= right)
+            {
+                int mid = left + (right - left) / 2;
+                if (arraytosearch[mid] == SearchItem)
+                {
+                    PositionsOfFounds.Add(mid);
+
+                    int i = mid - 1;
+                    while (i >= 0 && arraytosearch[i] == SearchItem)
+                    {
+                        PositionsOfFounds.Add(i);
+                        i--;
+                    }
+
+                    int j = mid + 1;
+                    while (j < arraytosearch.Length && arraytosearch[j] == SearchItem)
+                    {
+                        PositionsOfFounds.Add(j);
+                        j++;
+                    }
+                    return PositionsOfFounds;
+                }
+                if (arraytosearch[mid] < SearchItem)
+                {
+                    left = mid + 1;
+                }
+                else
+                {
+                    right = mid - 1;
+                }
+            }
+            return PositionsOfFounds;
+        }
+
         public static void Main(string[] args)
         {
+            Console.WriteLine("Every 10th Value of array no 1, 2, or 3?");        
+            int menuChoice = Int16.Parse(Console.ReadLine());
+
+            switch (menuChoice)
+            {
+                case 1:
+                    DisplayEvery10th(S1_256); 
+                    break;
+                case 2:
+                    DisplayEvery10th(S2_256);
+                    break;
+                case 3:
+                    DisplayEvery10th(S3_256);
+                    break;
+                default:
+                    break;
+            }
+
             Console.WriteLine("");
             LoadFiles();
             
