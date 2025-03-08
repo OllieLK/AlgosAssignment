@@ -92,20 +92,31 @@ namespace Algorithms
             }
             return arraytosort;
         }
-        public static List<int> LinearSearch(int[] arraytosearch, int SearchItem)
+        public static (List<int>, int) LinearSearch(int[] arraytosearch, int SearchItem)
         {
+            int closestValue = arraytosearch[0];
+            int lowestDifference = closestValue - SearchItem;
             List<int> PositionsOfFounds = new List<int>();
-            for (int i = 0; i < arraytosearch.Length - 1; i++) { 
+
+            for (int i = 0; i < arraytosearch.Length; i++) { 
                 if (arraytosearch[i] == SearchItem)
                 {
                     PositionsOfFounds.Add(i);
                 }
+                int currentDifference = arraytosearch[i] - SearchItem;
+                if (currentDifference < lowestDifference)
+                {
+                    closestValue = arraytosearch[i];
+                    lowestDifference = currentDifference;
+                }
             }
-            return PositionsOfFounds;
+            return (PositionsOfFounds, closestValue);
         }
-        public static List<int> BinarySearch(int[] arraytosearch, int SearchItem) {
+        public static (List<int>, int) BinarySearch(int[] arraytosearch, int SearchItem) {
             arraytosearch = BubbleSort(arraytosearch, "a");
             List<int> PositionsOfFounds = new List<int>();
+            int closestValue = arraytosearch[0];
+            int lowestDifference = closestValue - SearchItem;
             int left = 0;
             int right = arraytosearch.Length - 1;
             while (left <= right)
@@ -128,8 +139,16 @@ namespace Algorithms
                         PositionsOfFounds.Add(j);
                         j++;
                     }
-                    return PositionsOfFounds;
+                    return (PositionsOfFounds, 0);
                 }
+
+                int currentDifference = arraytosearch[mid] - SearchItem;
+                if (currentDifference < lowestDifference)
+                {
+                    closestValue = arraytosearch[mid];
+                    lowestDifference = currentDifference;
+                }
+
                 if (arraytosearch[mid] < SearchItem)
                 {
                     left = mid + 1;
@@ -139,7 +158,7 @@ namespace Algorithms
                     right = mid - 1;
                 }
             }
-            return PositionsOfFounds;
+            return (PositionsOfFounds, closestValue);
         }
 
         public static void DisplayMenu()
