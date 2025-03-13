@@ -92,6 +92,8 @@ namespace Algorithms
             }
             return arraytosort;
         }
+
+
         public static (List<int>, int) LinearSearch(int[] arraytosearch, int SearchItem)
         {
             int closestValue = arraytosearch[0];
@@ -219,6 +221,7 @@ namespace Algorithms
             Console.WriteLine("Array no 1, 2, or 3?");
             int menuChoice = Int16.Parse(Console.ReadLine());
 
+            int Closest;
             List<int> Values;
             int[] SelectedArray = null;
 
@@ -261,14 +264,14 @@ namespace Algorithms
             }
             if (SearchType == "b")
             {
-                Values = BinarySearch(SelectedArray, SearchTerm);
+                (Values, Closest) = BinarySearch(SelectedArray, SearchTerm);
             } else
             {
-                Values = LinearSearch(SelectedArray, SearchTerm);
+                (Values, Closest) = LinearSearch(SelectedArray, SearchTerm);
             }
             if (Values.Count == 0)
             {
-                Console.WriteLine("Not Present In Array");                
+                Console.WriteLine("Not Present In Array, the closest value (In the sorted array) is  ");                
             }
             else
             {
