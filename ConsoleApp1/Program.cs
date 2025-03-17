@@ -1,20 +1,12 @@
 ﻿using System;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
-/*
- * PRAGMA ONCE
- * 
- * 
- * 
- * 
- */
+
 
 
 namespace Algorithms
 {
     class Program
     {
-
         // Need to change searching to work with bin sort
         public static int[] S1_256, S1_2048, S2_256, S2_2048, S3_256, S3_2048;
         public static string[] sS1_256, sS1_2048, sS2_256, sS2_2048, sS3_256, sS3_2048;
@@ -92,10 +84,26 @@ namespace Algorithms
             }
             return arraytosort;
         }
+        public static int[] MergeSort(int[] arraytosort, string Direction)
+        {
+            int length = arraytosort.Length;
+            int[] temp = new int[length];
 
+            for (int i = 1; int < length; int *= 2)
+            {
+                for (int left = 0; left < length - i; left += 2 * i)
+                {
+                    int mid = left + i - 1;
+                    int right =
+                }
+            }
+        }
+        public int[] QuickSort(int[] arraytosort, string Direction) { }
+        
 
         public static (List<int>, int) LinearSearch(int[] arraytosearch, int SearchItem)
         {
+            arraytosearch = BubbleSort(arraytosearch, "a");
             int closestValue = arraytosearch[0];
             int lowestDifference = closestValue - SearchItem;
             List<int> PositionsOfFounds = new List<int>();
@@ -275,10 +283,12 @@ namespace Algorithms
             }
             else
             {
+                Console.Write("Found At Position (Within sorted array): ");
                 for (int i = 0; i < Values.Count - 1; i++)
                 {
-                    Console.WriteLine(Values[i]);
+                    Console.Write(Values[i] + ", ");
                 }
+                Console.ReadLine();
             }
         }
 
