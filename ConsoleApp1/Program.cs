@@ -84,92 +84,102 @@ namespace Algorithms
             }
             return arraytosort;
         }
-        public static int[] MergeSort(int[] arraytosort, string Direction)
+
+
+        public static void LinearSearch(int[] arrayToSearch, int searchItem)
         {
-            int length = arraytosort.Length;
-            int[] temp = new int[length];
+            List<int> indexes = new List<int>();
+            int closestValue = arrayToSearch[0];
+            int minDiff = Math.Abs(arrayToSearch[0] - searchItem);
 
-            for (int i = 1; int < length; int *= 2)
+            for (int i = 0; i < arrayToSearch.Length; i++)
             {
-                for (int left = 0; left < length - i; left += 2 * i)
+                if (arrayToSearch[i] == searchItem)
                 {
-                    int mid = left + i - 1;
-                    int right =
-                }
-            }
-        }
-        public int[] QuickSort(int[] arraytosort, string Direction) { }
-        
-
-        public static (List<int>, int) LinearSearch(int[] arraytosearch, int SearchItem)
-        {
-            arraytosearch = BubbleSort(arraytosearch, "a");
-            int closestValue = arraytosearch[0];
-            int lowestDifference = closestValue - SearchItem;
-            List<int> PositionsOfFounds = new List<int>();
-
-            for (int i = 0; i < arraytosearch.Length; i++) { 
-                if (arraytosearch[i] == SearchItem)
-                {
-                    PositionsOfFounds.Add(i);
-                }
-                int currentDifference = arraytosearch[i] - SearchItem;
-                if (currentDifference < lowestDifference)
-                {
-                    closestValue = arraytosearch[i];
-                    lowestDifference = currentDifference;
-                }
-            }
-            return (PositionsOfFounds, closestValue);
-        }
-        public static (List<int>, int) BinarySearch(int[] arraytosearch, int SearchItem) {
-            arraytosearch = BubbleSort(arraytosearch, "a");
-            List<int> PositionsOfFounds = new List<int>();
-            int closestValue = arraytosearch[0];
-            int lowestDifference = closestValue - SearchItem;
-            int left = 0;
-            int right = arraytosearch.Length - 1;
-            while (left <= right)
-            {
-                int mid = left + (right - left) / 2;
-                if (arraytosearch[mid] == SearchItem)
-                {
-                    PositionsOfFounds.Add(mid);
-
-                    int i = mid - 1;
-                    while (i >= 0 && arraytosearch[i] == SearchItem)
-                    {
-                        PositionsOfFounds.Add(i);
-                        i--;
-                    }
-
-                    int j = mid + 1;
-                    while (j < arraytosearch.Length && arraytosearch[j] == SearchItem)
-                    {
-                        PositionsOfFounds.Add(j);
-                        j++;
-                    }
-                    return (PositionsOfFounds, 0);
-                }
-
-                int currentDifference = arraytosearch[mid] - SearchItem;
-                if (currentDifference < lowestDifference)
-                {
-                    closestValue = arraytosearch[mid];
-                    lowestDifference = currentDifference;
-                }
-
-                if (arraytosearch[mid] < SearchItem)
-                {
-                    left = mid + 1;
+                    indexes.Add(i);
                 }
                 else
                 {
-                    right = mid - 1;
+                    int diff = Math.Abs(arrayToSearch[i] - searchItem);
+                    if (diff < minDiff || (diff == minDiff && arrayToSearch[i] < closestValue))
+                    {
+                        minDiff = diff;
+                        closestValue = arrayToSearch[i];
+                    }
                 }
             }
-            return (PositionsOfFounds, closestValue);
+            if (indexes.Count == 0)
+            {
+                Console.WriteLine("Not Present In Array, the closest value is: " + closestValue);
+            }
+            else
+            {
+                Console.Write("Found At Position (Indexing starts at 0): ");
+                for (int i = 0; i < indexes.Count; i++)
+                {
+                    Console.Write(indexes[i] + ", ");
+                }
+                Console.ReadLine();
+            }
         }
+        public static void BinarySearch(int[] arr, int searchTerm)
+        {
+            Array.Sort(arr); // Ensure the array is sorted
+            List<int> indexes = new List<int>();
+            int left = 0, right = arr.Length - 1;
+            int closestValue = arr[0];
+            int minDiff = Math.Abs(arr[0] - searchTerm);
+
+            while (left <= right)
+            {
+                int mid = left + (right - left) / 2;
+
+                if (arr[mid] == searchTerm)
+                {
+                    indexes.Add(mid);
+
+                    int temp = mid - 1;
+                    while (temp >= 0 && arr[temp] == searchTerm)
+                    {
+                        indexes.Add(temp);
+                        temp--;
+                    }
+                    temp = mid + 1;
+                    while (temp < arr.Length && arr[temp] == searchTerm)
+                    {
+                        indexes.Add(temp);
+                        temp++;
+                    }
+                    indexes.Sort();                    
+                }
+
+                int diff = Math.Abs(arr[mid] - searchTerm);
+                if (diff < minDiff || (diff == minDiff && arr[mid] < closestValue))
+                {
+                    minDiff = diff;
+                    closestValue = arr[mid];
+                }
+
+                if (arr[mid] < searchTerm)
+                    left = mid + 1;
+                else
+                    right = mid - 1;
+            }
+            if (indexes.Count == 0)
+            {
+                Console.WriteLine("Not Present In Array, the closest value is: " + closestValue);
+            }
+            else
+            {
+                Console.Write("Found At Position (Indexing starts at 0): ");
+                for (int i = 0; i < indexes.Count; i++)
+                {
+                    Console.Write(indexes[i] + ", ");
+                }
+                Console.ReadLine();
+            }
+        }
+
 
         public static void DisplayMenu()
         {
@@ -270,26 +280,10 @@ namespace Algorithms
                 default:
                     break;
             }
-            if (SearchType == "b")
-            {
-                (Values, Closest) = BinarySearch(SelectedArray, SearchTerm);
-            } else
-            {
-                (Values, Closest) = LinearSearch(SelectedArray, SearchTerm);
-            }
-            if (Values.Count == 0)
-            {
-                Console.WriteLine("Not Present In Array, the closest value (In the sorted array) is  ");                
-            }
+            if (SearchType == "b")            
+                BinarySearch(SelectedArray, SearchTerm);
             else
-            {
-                Console.Write("Found At Position (Within sorted array): ");
-                for (int i = 0; i < Values.Count - 1; i++)
-                {
-                    Console.Write(Values[i] + ", ");
-                }
-                Console.ReadLine();
-            }
+                LinearSearch(SelectedArray, SearchTerm);            
         }
 
         public static void Main(string[] args)
