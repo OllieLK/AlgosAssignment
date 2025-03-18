@@ -1,7 +1,29 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
-
+/// PROGRAM: STOCK MARKET VOLUME ANALYZER
+/// AUTHOR: OLIVER LAZARUS-KEENE 29218390
+/// DATE: 
+/// 
+/// DESCRIPTION:
+/// This program is a console based C# application that reads stock exchange values and can
+/// sort and search them using various algorithms. there is a main menu which will display
+/// within the console when the application is ran, from there the user can select from the
+/// several functions and the output will be displayed accordingly
+/// 
+/// DEPENDANCIES:
+/// All of the share .txt files must be placed in ConsoleApp1/bin/Debug/net8.0
+/// They were placed in there and working correctly when submitted, they are using relative
+/// addressing so should work correctly regardless of machine. They are submitted within the zip file in their
+/// own folder if any issues should arise.
+/// 
+/// 
+/// ALGORITHMS USED:
+/// Bubble sort, Merge sort, Quick sort.
+/// Linear search, Binary search.
+/// 
+/// PROGRAMMED IN VISUAL STUDIO.
 
 
 namespace Algorithms
@@ -47,6 +69,85 @@ namespace Algorithms
             }
         }
         
+        public static void MergeTwoFiles()
+        {
+            int[] array1 = null;
+            int[] array2 = null;
+            int interval = 0;
+            Console.WriteLine("256 or 2048 arrays?");
+            string arraySize = Console.ReadLine();
+            if (arraySize == "256")
+                interval = 20;
+            else
+                interval = 80;
+            Console.WriteLine("Select array no 1. (1, 2 or 3)");
+            string choice1 = Console.ReadLine();
+            Console.WriteLine("Select array no 2. (1, 2 or 3)");
+            string choice2 = Console.ReadLine();
+
+            switch (arraySize)
+            {
+                case "256":
+                    switch (choice1)
+                    {
+                        case "1":
+                            array1 = S1_256;
+                            break;
+                        case "2":
+                            array1 = S2_256; 
+                            break;
+                        case "3":
+                            array1 = S3_256;
+                            break;
+                    }
+                    switch (choice2)
+                    {
+                        case "1":
+                            array2 = S1_256;
+                            break;
+                        case "2":
+                            array2 = S2_256;
+                            break;
+                        case "3":
+                            array2 = S3_256;
+                            break;
+                    }
+                    break;
+                case "2048":
+                    switch (choice1)
+                    {
+                        case "1":
+                            array1 = S1_2048;
+                            break;
+                        case "2":
+                            array1 = S2_2048;
+                            break;
+                        case "3":
+                            array1 = S3_2048;
+                            break;
+                    }
+                    switch (choice2)
+                    {
+                        case "1":
+                            array2 = S1_2048;
+                            break;
+                        case "2":
+                            array2 = S2_2048;
+                            break;
+                        case "3":
+                            array2 = S3_2048;
+                            break;
+                    }
+                break;
+            }
+            Console.WriteLine("Press enter to concatenate, and then mergesort the result. it will then print every 20 values for 256 length arrays, and 80 for 2048 arrays.");
+            Console.ReadLine();
+            int[] ConcatArray = array1.Concat(array2).ToArray();
+            DisplayEveryInterval(MergeSort((ConcatArray), "a"), interval);
+        }
+
+
+
         public static int[] BubbleSort(int[] arraytosort, string Direction)
         {
             int temp;
@@ -84,6 +185,10 @@ namespace Algorithms
                 }
             }
             return arraytosort;
+        }
+        public static int[] QuickSort(int[] arrayToSort, string direction)
+        {
+            throw new NotImplementedException();
         }
         public static int[] MergeSort(int[] arrayToSort, string direction)
         {            
@@ -229,6 +334,9 @@ namespace Algorithms
 
         public static void DisplayMenu()
         {
+            
+            Console.WriteLine("Using Bubble(b), Merge(m), Or Quicksort(q)");
+            string SortType = Console.ReadLine();
             Console.WriteLine("Sort Going Up (a) or down (d)");
             string SortDirection = Console.ReadLine();
             Console.WriteLine("Show 256 or 2048 array?");
@@ -242,13 +350,46 @@ namespace Algorithms
                     switch (menuChoice)
                     {
                         case 1:
-                            DisplayEveryInterval(BubbleSort(S1_256, SortDirection), 10);
+                            switch (SortType)
+                            {
+                                case "b":
+                                    DisplayEveryInterval(BubbleSort(S1_256, SortDirection), 10);
+                                    break;
+                                case "m":
+                                    DisplayEveryInterval(MergeSort(S1_256, SortDirection), 10);
+                                    break;
+                                case "d":
+                                    DisplayEveryInterval(QuickSort(S1_256, SortDirection), 10);
+                                    break;
+                            }
                             break;
                         case 2:
-                            DisplayEveryInterval(BubbleSort(S2_256, SortDirection), 10);
+                            switch (SortType)
+                            {
+                                case "b":
+                                    DisplayEveryInterval(BubbleSort(S2_256, SortDirection), 10);
+                                    break;
+                                case "m":
+                                    DisplayEveryInterval(MergeSort(S2_256, SortDirection), 10);
+                                    break;
+                                case "d":
+                                    DisplayEveryInterval(QuickSort(S2_256, SortDirection), 10);
+                                    break;
+                            }
                             break;
                         case 3:
-                            DisplayEveryInterval(BubbleSort(S3_256, SortDirection), 10);
+                            switch (SortType)
+                            {
+                                case "b":
+                                    DisplayEveryInterval(BubbleSort(S3_256, SortDirection), 10);
+                                    break;
+                                case "m":
+                                    DisplayEveryInterval(MergeSort(S3_256, SortDirection), 10);
+                                    break;
+                                case "d":
+                                    DisplayEveryInterval(QuickSort(S3_256, SortDirection), 10);
+                                    break;
+                            }
                             break;
                         default:
                             break;
@@ -258,13 +399,46 @@ namespace Algorithms
                     switch (menuChoice)
                     {
                         case 1:
-                            DisplayEveryInterval(BubbleSort(S1_2048, SortDirection), 50);
+                            switch (SortType)
+                            {
+                                case "b":
+                                    DisplayEveryInterval(BubbleSort(S1_2048, SortDirection), 50);
+                                    break;
+                                case "m":
+                                    DisplayEveryInterval(MergeSort(S1_2048, SortDirection), 50);
+                                    break;
+                                case "d":
+                                    DisplayEveryInterval(QuickSort(S1_2048, SortDirection), 50);
+                                    break;
+                            }
                             break;
                         case 2:
-                            DisplayEveryInterval(BubbleSort(S2_2048, SortDirection), 50);
+                            switch (SortType)
+                            {
+                                case "b":
+                                    DisplayEveryInterval(BubbleSort(S2_2048, SortDirection), 50);
+                                    break;
+                                case "m":
+                                    DisplayEveryInterval(MergeSort(S2_2048, SortDirection), 50);
+                                    break;
+                                case "d":
+                                    DisplayEveryInterval(QuickSort(S2_2048, SortDirection), 50);
+                                    break;
+                            }
                             break;
                         case 3:
-                            DisplayEveryInterval(BubbleSort(S3_2048, SortDirection), 50);
+                            switch (SortType)
+                            {
+                                case "b":
+                                    DisplayEveryInterval(BubbleSort(S3_2048, SortDirection), 50);
+                                    break;
+                                case "m":
+                                    DisplayEveryInterval(MergeSort(S3_2048, SortDirection), 50);
+                                    break;
+                                case "d":
+                                    DisplayEveryInterval(QuickSort(S3_2048, SortDirection), 50);
+                                    break;
+                            }
                             break;
                         default:
                             break;
@@ -337,7 +511,7 @@ namespace Algorithms
             LoadFiles();
             do
             {
-                Console.WriteLine("Select Function:\n[1] Display sorted arrays\n[2] Search Arrays\n[3] Quit");
+                Console.WriteLine("Select Function:\n[1] Display sorted arrays\n[2] Search Arrays\n[3] Concatenate and merge\n[4] Quit");
                 int menuChoice = Int16.Parse(Console.ReadLine());
                 if (menuChoice == 1)
                 {
@@ -346,6 +520,9 @@ namespace Algorithms
                 {
                     SearchMenu();
                 } else if (menuChoice == 3)
+                {
+                    MergeTwoFiles();
+                } else if (menuChoice == 4)
                 {
                     break;
                 }
