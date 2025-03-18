@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 
 
@@ -84,7 +85,52 @@ namespace Algorithms
             }
             return arraytosort;
         }
+        public static int[] MergeSort(int[] arrayToSort, string direction)
+        {            
+            int n = arrayToSort.Length;
+            int[] tempArray = new int[n];
 
+            // Iterative bottom-up merge sort
+            for (int size = 1; size < n; size *= 2)
+            {
+                for (int leftStart = 0; leftStart < n - size; leftStart += 2 * size)
+                {
+                    int left = leftStart;
+                    int mid = leftStart + size;
+                    int right = Math.Min(leftStart + 2 * size, n);
+                    int i = left, j = mid, k = left;
+
+                    while (i < mid && j < right)
+                    {
+                        if ((direction == "a" && arrayToSort[i] <= arrayToSort[j]) ||
+                            (direction == "d" && arrayToSort[i] >= arrayToSort[j]))
+                        {
+                            tempArray[k++] = arrayToSort[i++];
+                        }
+                        else
+                        {
+                            tempArray[k++] = arrayToSort[j++];
+                        }
+                    }
+
+                    while (i < mid)
+                    {
+                        tempArray[k++] = arrayToSort[i++];
+                    }
+
+                    while (j < right)
+                    {
+                        tempArray[k++] = arrayToSort[j++];
+                    }
+
+                    for (i = left; i < right; i++)
+                    {
+                        arrayToSort[i] = tempArray[i];
+                    }
+                }
+            }
+            return arrayToSort;
+        }
 
         public static void LinearSearch(int[] arrayToSearch, int searchItem)
         {
@@ -124,11 +170,12 @@ namespace Algorithms
         }
         public static void BinarySearch(int[] arr, int searchTerm)
         {
-            Array.Sort(arr); // Ensure the array is sorted
-            List<int> indexes = new List<int>();
+            arr = BubbleSort(arr, "a");
             int left = 0, right = arr.Length - 1;
+            List<int> indexes = new List<int>();
             int closestValue = arr[0];
             int minDiff = Math.Abs(arr[0] - searchTerm);
+            bool found = false;
 
             while (left <= right)
             {
@@ -136,21 +183,25 @@ namespace Algorithms
 
                 if (arr[mid] == searchTerm)
                 {
+                    found = true;
                     indexes.Add(mid);
 
+                    // Find duplicates on both sides using binary search
                     int temp = mid - 1;
                     while (temp >= 0 && arr[temp] == searchTerm)
                     {
                         indexes.Add(temp);
                         temp--;
                     }
+
                     temp = mid + 1;
                     while (temp < arr.Length && arr[temp] == searchTerm)
                     {
                         indexes.Add(temp);
                         temp++;
                     }
-                    indexes.Sort();                    
+
+                    break; // No need to continue binary search
                 }
 
                 int diff = Math.Abs(arr[mid] - searchTerm);
@@ -165,21 +216,16 @@ namespace Algorithms
                 else
                     right = mid - 1;
             }
-            if (indexes.Count == 0)
+            if (found)
             {
-                Console.WriteLine("Not Present In Array, the closest value is: " + closestValue);
+                Console.Write("Found at positions (Within array - after its been sorted): ");
+                Console.WriteLine(string.Join(", ", indexes));
             }
             else
             {
-                Console.Write("Found At Position (Indexing starts at 0): ");
-                for (int i = 0; i < indexes.Count; i++)
-                {
-                    Console.Write(indexes[i] + ", ");
-                }
-                Console.ReadLine();
+                Console.WriteLine("Not present in array, closest value is: " + closestValue);
             }
         }
-
 
         public static void DisplayMenu()
         {
