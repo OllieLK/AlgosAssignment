@@ -30,7 +30,6 @@ namespace Algorithms
 {
     class Program
     {
-        // Need to change searching to work with bin sort
         public static int[] S1_256, S1_2048, S2_256, S2_2048, S3_256, S3_2048;
         public static string[] sS1_256, sS1_2048, sS2_256, sS2_2048, sS3_256, sS3_2048;
 
@@ -60,7 +59,6 @@ namespace Algorithms
             S3_2048 = ConvertToInteger(sS3_2048);
             return true;
         }
-
 
         public static void DisplayEveryInterval(int[] Array, int Interval)
         {
@@ -145,8 +143,6 @@ namespace Algorithms
             int[] ConcatArray = array1.Concat(array2).ToArray();
             DisplayEveryInterval(MergeSort((ConcatArray), "a"), interval);
         }
-
-
 
         public static int[] BubbleSort(int[] arraytosort, string Direction)
         {
