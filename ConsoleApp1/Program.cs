@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 /// PROGRAM: STOCK MARKET VOLUME ANALYZER
 /// AUTHOR: OLIVER LAZARUS-KEENE 29218390
-/// DATE: 
+/// DATE: 19/02/2025
 /// 
 /// DESCRIPTION:
 /// This program is a console based C# application that reads stock exchange values and can
@@ -30,9 +30,12 @@ namespace Algorithms
 {
     class Program
     {
+        // Arrays in which the shares are stored. they are loaded as strings then converted to integers hence the two of each array.
         public static int[] S1_256, S1_2048, S2_256, S2_2048, S3_256, S3_2048;
         public static string[] sS1_256, sS1_2048, sS2_256, sS2_2048, sS3_256, sS3_2048;
 
+
+        // Functions called at the start of excecution. loads the files and converts them into integers.
         public static int[] ConvertToInteger(string[] s)
         {
             int[] a = new int[s.Length];
@@ -60,13 +63,14 @@ namespace Algorithms
             return true;
         }
 
+
+
         public static void DisplayEveryInterval(int[] Array, int Interval)
         {
             for (int i = 0;i < Array.Length - 1; i= i + Interval) {
                 Console.WriteLine(Array[i]);
             }
-        }
-        
+        }       
         public static void MergeTwoFiles()
         {
             int[] array1 = null;
@@ -144,6 +148,9 @@ namespace Algorithms
             DisplayEveryInterval(MergeSort((ConcatArray), "a"), interval);
         }
 
+
+        // 3 sorting algortithms the program uses. each takes two parameters, an array of integers and a string for the direction
+        // They each return an array of integers, which are sorted. further details of how they work are commented within each function
         public static int[] BubbleSort(int[] arraytosort, string Direction)
         {
             int temp;
@@ -232,6 +239,7 @@ namespace Algorithms
             }
             return arrayToSort;
         }
+
 
         public static void LinearSearch(int[] arrayToSearch, int searchItem)
         {
@@ -327,6 +335,7 @@ namespace Algorithms
                 Console.WriteLine("Not present in array, closest value is: " + closestValue);
             }
         }
+
 
         public static void DisplayMenu()
         {
